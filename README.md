@@ -2,13 +2,13 @@
 
 A complete full-stack Web3 DeFi application deployed on Sepolia testnet. This project demonstrates end-to-end blockchain development skills, from Solidity smart contracts to a production-ready React frontend.
 
-## 🌊 Overview
+## Overview
 
 CharonSwap is a comprehensive DeFi ecosystem featuring an Automated Market Maker (AMM), staking mechanisms, and a fully custom frontend. Named after Charon, the ferryman who crosses the river Styx, this protocol moves liquidity across the blockchain—just as Charon moves souls across the river.
 
 **This is a portfolio project showcasing my ability to build complete Web3 applications from scratch.**
 
-## 🎯 For Hirers
+## For Hirers
 
 This repository contains everything I built:
 - ✅ **Smart Contracts** - Custom Solidity contracts for AMM, staking, and token management
@@ -18,7 +18,7 @@ This repository contains everything I built:
 
 **You can test all functionality directly on the live site** - connect your wallet and try swapping, staking, and using the faucet!
 
-## ✨ Features
+## Features
 
 ### 🔄 Automated Market Maker (AMM)
 - Constant product formula (x * y = k) implementation
@@ -27,18 +27,18 @@ This repository contains everything I built:
 - Real-time price calculations and slippage protection
 - CHR ↔ FETH trading pair
 
-### 💰 Staking System
+### Staking System
 - **Flexible Staking**: Stake CHR to earn CHR rewards with dynamic APR
 - **Locked Staking**: Three lock pools (30/90/180 days) with boosted rewards
 - Real-time reward calculations
 - Admin controls for reward rate management
 
-### 🚰 Faucet
+### Faucet
 - Get free test tokens (CHR and FETH) for testing
 - 12-hour cooldown per wallet
 - Owner-configurable drip amounts
 
-### 🎨 Frontend
+### Frontend
 - Modern, responsive UI built with React + Tailwind CSS
 - Wallet integration via RainbowKit and Wagmi
 - Real-time on-chain data fetching
@@ -46,7 +46,7 @@ This repository contains everything I built:
 - Price charts and analytics dashboard
 - Admin panel for contract management
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 ### Smart Contracts
 - **Solidity** ^0.8.20
@@ -81,7 +81,7 @@ This repository contains everything I built:
 5. Stake your CHR tokens to earn rewards
 6. Check the Analytics dashboard for pool statistics
 
-## 📝 Smart Contracts
+## Smart Contracts
 
 ### Core Contracts
 
@@ -99,7 +99,7 @@ This repository contains everything I built:
 - Pausable functionality for emergency stops
 - Input validation throughout
 
-## 🧪 Testing
+## Testing
 
 All contracts are thoroughly tested using **Foundry**. Test files are located in `foundry_tests/test/`:
 
@@ -107,7 +107,7 @@ All contracts are thoroughly tested using **Foundry**. Test files are located in
 - `CharonStake.t.sol` - Staking mechanism tests
 - Additional test coverage for edge cases
 
-## 🎯 Skills Demonstrated
+## Skills Demonstrated
 
 This project showcases:
 
@@ -120,16 +120,14 @@ This project showcases:
 - **UI/UX Design**: Custom design system with smooth animations
 - **Product Ownership**: End-to-end development from concept to deployment
 
-## 💡 What You Can Test
+## What You Can Try Out
 
 1. **Token Swapping**: Trade CHR ↔ FETH with real-time price calculations
 2. **Liquidity Provision**: Add/remove liquidity and earn LP tokens
 3. **Staking**: Stake CHR in flexible or locked pools to earn rewards
 4. **Faucet**: Claim test tokens (12-hour cooldown)
-5. **Analytics**: View pool reserves, price charts, and statistics
-6. **Admin Functions**: If you're the owner, manage reward rates and pause contracts
 
-## 📚 Code Quality
+## Code Quality
 
 - Clean, well-commented Solidity code
 - Modular React components
@@ -138,13 +136,13 @@ This project showcases:
 - Gas-optimized where possible
 - Following best practices and security patterns
 
-## 👤 Author
+## Author
 
 **Luka Turunen**
 - GitHub: [@luka-turunen](https://github.com/luka-turunen)
 - Built as a portfolio project to demonstrate full-stack Web3 development capabilities
 
-## 📄 License
+## License
 
 MIT License
 
