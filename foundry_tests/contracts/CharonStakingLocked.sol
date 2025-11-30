@@ -5,23 +5,25 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
-// Locked staking with multiple pools - longer locks get better rates
+/// @title Charon Locked Staking v2
+/// @notice Lock CHR in fixed-term pools (30/90/180 days) with boosted rewards.
 contract CharonStakingLocked is Ownable, ReentrancyGuard {
-    IERC20 public immutable stakingToken;
-    IERC20 public immutable rewardToken;
+    IERC20 public immutable stakingToken; // CHR
+    IERC20 public immutable rewardToken;  // CHR
 
     struct Pool {
-        uint256 duration;
-        uint256 rewardRate;  // tokens per second per 1e18 staked
-        uint256 totalSupply;
+        uint256 duration;       // in seconds
+        uint256 rewardRate;     // tokens per second per 1e18 staked (18 decimals)
+        uint256 totalSupply;    // total staked in this pool
         uint256 rewardPerTokenStored;
         uint256 lastUpdateTime;
         bool active;
     }
 
-    // Pool 0 = 30 days, 1 = 90 days, 2 = 180 days (but owner can reconfigure)
+    // 0 = 30d, 1 = 90d, 2 = 180d (configurable)
     mapping(uint8 => Pool) public pools;
 
+    // user => poolId => stake data
     struct UserStake {
         uint256 balance;
         uint256 rewardPerTokenPaid;
@@ -44,8 +46,8 @@ contract CharonStakingLocked is Ownable, ReentrancyGuard {
         stakingToken = IERC20(_stakingToken);
         rewardToken = IERC20(_stakingToken);
 
-        // Initialize the three pools - reward rates get set by owner later
-        _configurePool(0, 30 days, 0, true);
+        // default pools
+        _configurePool(0, 30 days, 0, true);   // set rewardRate later
         _configurePool(1, 90 days, 0, true);
         _configurePool(2, 180 days, 0, true);
     }
@@ -85,7 +87,7 @@ contract CharonStakingLocked is Ownable, ReentrancyGuard {
         emit PoolConfigured(poolId, duration, rewardRate, active);
     }
 
-    // Owner can set up new pools or adjust existing ones
+    /// @notice Admin: configure a lock pool
     function configurePool(
         uint8 poolId,
         uint256 duration,
@@ -100,6 +102,7 @@ contract CharonStakingLocked is Ownable, ReentrancyGuard {
         emit Paused(_paused);
     }
 
+    /// @notice View: rewardPerToken for a pool
     function rewardPerToken(uint8 poolId) public view returns (uint256) {
         Pool storage pool = pools[poolId];
         if (pool.totalSupply == 0) return pool.rewardPerTokenStored;
@@ -107,6 +110,7 @@ contract CharonStakingLocked is Ownable, ReentrancyGuard {
         return pool.rewardPerTokenStored + ((elapsed * pool.rewardRate * 1e18) / pool.totalSupply);
     }
 
+    /// @notice View: earned rewards for user in a pool
     function earned(address account, uint8 poolId) public view returns (uint256) {
         Pool storage pool = pools[poolId];
         UserStake storage st = userStakes[account][poolId];
@@ -117,7 +121,7 @@ contract CharonStakingLocked is Ownable, ReentrancyGuard {
             st.rewards;
     }
 
-    // Staking resets your unlock timer - so if you add more, the whole stake locks for the full duration again
+    /// @notice Stake CHR into a pool (0/1/2)
     function stake(uint8 poolId, uint256 amount)
         external
         nonReentrant
@@ -130,7 +134,7 @@ contract CharonStakingLocked is Ownable, ReentrancyGuard {
 
         UserStake storage st = userStakes[msg.sender][poolId];
 
-        // Adding more resets the timer - your whole stake locks for the full duration
+        // reset unlock from now
         st.unlockTime = block.timestamp + pool.duration;
 
         pool.totalSupply += amount;
@@ -144,7 +148,7 @@ contract CharonStakingLocked is Ownable, ReentrancyGuard {
         emit Staked(msg.sender, poolId, amount, st.unlockTime);
     }
 
-    // Can only withdraw after the lock period is up
+    /// @notice Withdraw staked CHR after lock expires
     function withdraw(uint8 poolId, uint256 amount)
         public
         nonReentrant
@@ -165,7 +169,7 @@ contract CharonStakingLocked is Ownable, ReentrancyGuard {
         emit Withdrawn(msg.sender, poolId, amount);
     }
 
-    // You can claim rewards anytime, even while locked
+    /// @notice Claim pending rewards from a pool (no unlock requirement)
     function getReward(uint8 poolId)
         public
         nonReentrant
@@ -183,7 +187,7 @@ contract CharonStakingLocked is Ownable, ReentrancyGuard {
         }
     }
 
-    // Pull out everything you can (stake only if unlocked) and claim rewards
+    /// @notice Exit a pool: withdraw all (if unlocked) + claim reward
     function exit(uint8 poolId) external {
         UserStake storage st = userStakes[msg.sender][poolId];
         uint256 bal = st.balance;
@@ -193,7 +197,7 @@ contract CharonStakingLocked is Ownable, ReentrancyGuard {
         getReward(poolId);
     }
 
-    // Emergency recovery for tokens that shouldn't be here
+    /// @notice Rescue wrong tokens (not CHR)
     function rescueTokens(
         address token,
         uint256 amount,

@@ -1,9 +1,7 @@
 import { Link } from "react-router-dom";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useState } from "react";
-import arrow from "../assets/down-arrow1.png";   // <-- FIXED IMPORT
-
-export default function Fkooter() {
+export default function Footer() {
   const [openMore, setOpenMore] = useState(false);
 
   return (        

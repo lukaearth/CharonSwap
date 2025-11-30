@@ -1,5 +1,3 @@
-// FULL UPDATED STAKING PAGE WITH HYBRID SOFT-FLOAT ANIMATIONS
-
 import { useState } from "react";
 import {
   useAccount,
@@ -161,12 +159,10 @@ export default function Stake() {
   return (
     <div className="relative min-h-screen bg-[#050709] text-white font-inter overflow-hidden">
 
-      {/* Starfield */}
       <div className="absolute inset-0 opacity-[0.18]">
         <Starfield />
       </div>
 
-      {/* Ambient Glow Pulse */}
       <motion.div
         initial={{ opacity: 0.25 }}
         animate={{ opacity: [0.25, 0.38, 0.25] }}
@@ -179,14 +175,12 @@ export default function Stake() {
       <div className="relative z-10 flex min-h-screen flex-col">
         <main className="flex flex-1 items-center justify-center px-4 pt-10 pb-16">
 
-          {/* CONTAINER */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
             className="w-full max-w-md mx-auto text-center"
           >
-            {/* Badge */}
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -197,7 +191,6 @@ export default function Stake() {
               CHR Staking Vault
             </motion.div>
 
-            {/* Title */}
             <motion.h1
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
@@ -207,7 +200,6 @@ export default function Stake() {
               Stake your CHR
             </motion.h1>
 
-            {/* Subtext */}
             <motion.p
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -217,7 +209,6 @@ export default function Stake() {
               Lock CHR to earn rewards from the protocol.
             </motion.p>
 
-            {/* CARD */}
             <motion.div
               initial={{ opacity: 0, y: 26 }}
               animate={{
@@ -230,13 +221,11 @@ export default function Stake() {
               }}
               className="mt-8 rounded-2xl bg-black/40 border border-white/10 backdrop-blur-xl p-6 relative overflow-hidden"
             >
-              {/* Glow Blobs */}
               <div className="absolute -top-20 -left-20 h-40 w-40 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none" />
               <div className="absolute -bottom-20 -right-20 h-40 w-40 bg-emerald-300/20 rounded-full blur-2xl pointer-events-none" />
 
               <div className="relative z-10">
 
-                {/* Stats */}
                 <motion.div
                   initial={{ opacity: 0, y: 14 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -284,7 +273,6 @@ export default function Stake() {
                   </div>
                 </motion.div>
 
-                {/* Pool Share */}
                 {staked > 0 && (
                   <motion.div
                     initial={{ opacity: 0, y: 14 }}
@@ -309,7 +297,6 @@ export default function Stake() {
                   </motion.div>
                 )}
 
-                {/* Amount */}
                 <motion.div
                   initial={{ opacity: 0, y: 14 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -348,7 +335,6 @@ export default function Stake() {
                   )}
                 </motion.div>
 
-                {/* Buttons */}
                 <motion.div
                   initial={{ opacity: 0, y: 14 }}
                   animate={{ opacity: 1, y: 0 }}
@@ -382,7 +368,6 @@ export default function Stake() {
                   </motion.button>
                 </motion.div>
 
-                {/* CLAIM BUTTON */}
                 <motion.button
                   whileHover={canClaim && !isClaiming ? { y: -2 } : {}}
                   onClick={handleClaim}
@@ -404,7 +389,6 @@ export default function Stake() {
         <Footer />
       </div>
 
-      {/* Animated Toast */}
       {toast && (
         <motion.div
           initial={{ opacity: 0 }}

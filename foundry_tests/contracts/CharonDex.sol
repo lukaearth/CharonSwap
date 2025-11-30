@@ -9,11 +9,10 @@ contract CharonDex is ERC20, ReentrancyGuard {
     address public immutable token0;
     address public immutable token1;
 
-    uint256 public reserve0;
-    uint256 public reserve1;
+    uint256 public reserve0; // amount of token0 in pool
+    uint256 public reserve1; // amount of token1 in pool
 
-    // 0.3% swap fee - standard for most AMMs
-    uint256 public constant FEE_NUMERATOR = 3;
+    uint256 public constant FEE_NUMERATOR = 3;    // 0.3% fee
     uint256 public constant FEE_DENOMINATOR = 1000;
 
     event LiquidityAdded(address indexed provider, uint256 amount0, uint256 amount1, uint256 liquidityMinted);
@@ -26,17 +25,21 @@ contract CharonDex is ERC20, ReentrancyGuard {
         require(_token0 != address(0) && _token1 != address(0), "Invalid token");
         require(_token0 != _token1, "Tokens must be different");
 
-        // Keep tokens in sorted order to avoid ambiguity - makes swap logic simpler
+        // enforce order so logic is consistent
         require(_token0 < _token1, "token0 must be < token1");
 
         token0 = _token0;
         token1 = _token1;
     }
 
+    // ---- View helpers ----
+
     function getReserves() public view returns (uint256 _reserve0, uint256 _reserve1) {
         _reserve0 = reserve0;
         _reserve1 = reserve1;
     }
+
+    // ---- Core AMM logic ----
 
     function addLiquidity(uint256 amount0Desired, uint256 amount1Desired)
         external
@@ -48,14 +51,14 @@ contract CharonDex is ERC20, ReentrancyGuard {
         (uint256 _reserve0, uint256 _reserve1) = getReserves();
 
         if (_reserve0 == 0 && _reserve1 == 0) {
-            // First LP deposit sets the initial price - they can use whatever ratio they want
+            // first liquidity: use the amounts as-is
             amount0 = amount0Desired;
             amount1 = amount1Desired;
 
             liquidity = _sqrt(amount0 * amount1);
             require(liquidity > 0, "Insufficient liquidity minted");
         } else {
-            // For existing pools, we need to match the current price ratio
+            // enforce current price ratio
             uint256 amount1Optimal = (amount0Desired * _reserve1) / _reserve0;
             if (amount1Optimal <= amount1Desired) {
                 amount0 = amount0Desired;
@@ -75,10 +78,14 @@ contract CharonDex is ERC20, ReentrancyGuard {
             require(liquidity > 0, "Insufficient liquidity minted");
         }
 
+        // pull tokens in
         IERC20(token0).transferFrom(msg.sender, address(this), amount0);
         IERC20(token1).transferFrom(msg.sender, address(this), amount1);
 
+        // mint LP tokens
         _mint(msg.sender, liquidity);
+
+        // update reserves
         _updateReserves();
 
         emit LiquidityAdded(msg.sender, amount0, amount1, liquidity);
@@ -99,9 +106,14 @@ contract CharonDex is ERC20, ReentrancyGuard {
 
         require(amount0 > 0 && amount1 > 0, "Insufficient amounts");
 
+        // burn LP tokens
         _burn(msg.sender, liquidity);
+
+        // send underlying tokens back
         IERC20(token0).transfer(msg.sender, amount0);
         IERC20(token1).transfer(msg.sender, amount1);
+
+        // update reserves
         _updateReserves();
 
         emit LiquidityRemoved(msg.sender, amount0, amount1, liquidity);
@@ -122,11 +134,12 @@ contract CharonDex is ERC20, ReentrancyGuard {
 
         IERC20(tokenIn).transferFrom(msg.sender, address(this), amountIn);
 
-        // Handle fee-on-transfer tokens by checking actual balance received
+        // recompute actual amountIn in case of fee-on-transfer tokens (advanced: can ignore)
         uint256 balanceIn = IERC20(tokenIn).balanceOf(address(this));
         uint256 actualAmountIn = balanceIn - _reserveIn;
 
-        // Constant product AMM: x * y = k, but we take a fee so less goes into the pool
+        // constant product formula with fee:
+        // amountOut = (amountInWithFee * reserveOut) / (reserveIn + amountInWithFee)
         uint256 amountInWithFee = (actualAmountIn * (FEE_DENOMINATOR - FEE_NUMERATOR)) / FEE_DENOMINATOR;
         amountOut = (amountInWithFee * _reserveOut) / (_reserveIn + amountInWithFee);
 
@@ -135,10 +148,14 @@ contract CharonDex is ERC20, ReentrancyGuard {
 
         address tokenOut = isToken0In ? token1 : token0;
         IERC20(tokenOut).transfer(msg.sender, amountOut);
+
+        // update reserves
         _updateReserves();
 
         emit Swap(msg.sender, tokenIn, tokenOut, actualAmountIn, amountOut);
     }
+
+    // ---- Internal helpers ----
 
     function _updateReserves() internal {
         reserve0 = IERC20(token0).balanceOf(address(this));

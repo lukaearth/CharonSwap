@@ -8,11 +8,9 @@ contract FakeETH is ERC20 {
 
     constructor() ERC20("Fake ETH", "FETH") {
         owner = msg.sender;
-        // Give deployer some initial tokens for testing
-        _mint(msg.sender, 1000 ether);
+        _mint(msg.sender, 1000 ether); // optional: seed yourself
     }
 
-    // Owner can mint more for testing/faucet purposes
     function mint(address to, uint256 amount) external {
         require(msg.sender == owner, "Not owner");
         _mint(to, amount);

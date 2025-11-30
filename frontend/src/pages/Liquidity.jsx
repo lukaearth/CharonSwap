@@ -37,7 +37,6 @@ export default function Liquidity() {
       const chrAmount = parseUnits(chr, 18);
       const fethAmount = parseUnits(fethNeeded, 18);
 
-      // approve CHR
       await writeContract({
         address: CHR,
         abi: erc20ABI,
@@ -46,7 +45,6 @@ export default function Liquidity() {
         config
       });
 
-      // approve FETH
       await writeContract({
         address: FETH,
         abi: erc20ABI,

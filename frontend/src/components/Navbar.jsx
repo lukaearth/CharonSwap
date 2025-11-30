@@ -1,7 +1,7 @@
 import { Link } from "react-router-dom";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useState } from "react";
-import arrow from "../assets/down-arrow1.png";   // <-- FIXED IMPORT
+import arrow from "../assets/down-arrow1.png";
 
 export default function Navbar() {
   const [openMore, setOpenMore] = useState(false);
@@ -10,7 +10,6 @@ export default function Navbar() {
     <header className="relative z-50 w-full border-b border-white/10 bg-black/35 backdrop-blur-xl">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
 
-        {/* Logo */}
         <div className="flex items-center gap-2 ">
 
           <div className="flex h-8 w-8 items-center justify-center rounded-full border border-emerald-400/60 bg-emerald-500/15 shadow-[0_0_25px_rgba(16,185,129,0.55)]">
@@ -24,21 +23,19 @@ export default function Navbar() {
           </div>
         </div>
 
-        {/* LINKS */}
         <nav className="hidden items-center gap-8 text-sm text-zinc-200 md:flex relative">
 
           <Link to="/" className="hover:text-white">Home</Link>
           <Link to="/swap" className="hover:text-white">Swap</Link>
           <Link to="/staking" className="hover:text-white">Staking</Link>
+          <Link to="/charon" className="hover:text-white">Charon Ecosystem</Link>
 
-          {/* --- MORE DROPDOWN --- */}
           <button
             onClick={() => setOpenMore((prev) => !prev)}
             className="flex items-center gap-1 hover:text-white focus:outline-none"
           >
             More
 
-            {/* NEW IMAGE ARROW */}
             <img
               src={arrow}
               alt="arrow"
@@ -48,7 +45,6 @@ export default function Navbar() {
             />
           </button>
 
-          {/* DROPDOWN MENU */}
           <div
             className={`
               absolute z-50 left-[calc(100%-80px)] top-10 w-40 overflow-hidden 
@@ -74,19 +70,11 @@ export default function Navbar() {
               >
                 About
               </Link>
-              <Link
-                to="/contact"
-                className="px-4 py-2 hover:bg-white/10"
-                onClick={() => setOpenMore(false)}
-              >
-                Contact Me
-              </Link>
 
             </div>
           </div>
         </nav>
 
-        {/* ACTIONS */}
         <div className="flex items-center gap-4">
           <Link
             to="/faucet"

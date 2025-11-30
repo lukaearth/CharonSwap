@@ -1,4 +1,3 @@
-// FAUCET PAGE — NOW 100% MATCHING SWAP PAGE STYLE
 import { useState } from "react";
 import { useAccount, useReadContract, useWriteContract } from "wagmi";
 import { formatUnits } from "viem";
@@ -23,7 +22,6 @@ export default function Faucet() {
   const [toast, setToast] = useState(null);
   const [loading, setLoading] = useState(false);
 
-  // READ CONTRACT STATE
   const { data: chrAmountRaw } = useReadContract({
     address: FAUCET_ADDRESS,
     abi: FAUCET_ABI,
@@ -119,12 +117,10 @@ export default function Faucet() {
 
   return (
     <div className="relative min-h-screen bg-[#050709] text-white font-inter overflow-hidden">
-      {/* Starfield */}
       <div className="absolute inset-0 opacity-[0.18]">
         <Starfield />
       </div>
 
-      {/* Ambient Glow Pulse – matches Swap exactly */}
       <motion.div
         initial={{ opacity: 0.25 }}
         animate={{ opacity: [0.25, 0.38, 0.25] }}
@@ -136,14 +132,12 @@ export default function Faucet() {
 
       <div className="relative z-10 flex min-h-screen flex-col">
         <main className="flex flex-1 items-center justify-center px-4 pt-10 pb-16">
-          {/* Compact container – same max-w-md as Swap */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
             className="w-full  max-w-md mx-auto text-center"
           >
-            {/* Tiny badge – identical to Swap */}
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -154,7 +148,6 @@ export default function Faucet() {
               Testnet Faucet • Sepolia
             </motion.div>
 
-            {/* Title & subcopy – tighter, same as Swap */}
             <motion.h1
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
@@ -173,7 +166,6 @@ export default function Faucet() {
               Claim CHR and FETH to explore CharonDEX on Sepolia.
             </motion.p>
 
-            {/* Wallet balances – compact cards */}
             {address && (
               <motion.div
                 initial={{ opacity: 0, y: 18 }}
@@ -192,7 +184,6 @@ export default function Faucet() {
               </motion.div>
             )}
 
-            {/* Main Card – exact same style & floating animation as Swap */}
             <motion.div
               initial={{ opacity: 0, y: 26 }}
               animate={{
@@ -205,12 +196,10 @@ export default function Faucet() {
               }}
               className="mt-8 rounded-2xl bg-black/40 border border-white/10 backdrop-blur-xl p-6 relative overflow-hidden"
             >
-              {/* Inner glow blobs – identical to Swap */}
               <div className="absolute -top-20 -left-20 h-40 w-40 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none" />
               <div className="absolute -bottom-20 -right-20 h-40 w-40 bg-emerald-300/20 rounded-full blur-2xl pointer-events-none" />
 
               <div className="relative z-10 space-y-6">
-                {/* CHR Button */}
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm font-medium">CHR Token</span>
@@ -229,7 +218,6 @@ export default function Faucet() {
                   </button>
                 </div>
 
-                {/* FETH Button */}
                 <div>
                   <div className="flex items-center justify-between mb-2">
                     <span className="text-sm font-medium">FETH</span>
@@ -256,11 +244,9 @@ export default function Faucet() {
           </motion.div>
         </main>
 
-        {/* Tiny footer – matches Swap */}
         <Footer />
       </div>
 
-      {/* Toast – identical to Swap */}
       {toast && (
         <motion.div
           initial={{ opacity: 0 }}

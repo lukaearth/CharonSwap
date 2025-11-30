@@ -5,12 +5,13 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
-// Simple staking contract - stake CHR to earn CHR rewards
+/// @title Charon single-sided staking
+/// @notice Stake CHR, earn CHR. Owner can pause and adjust reward rate.
 contract CharonStaking is Ownable, ReentrancyGuard {
-    IERC20 public immutable stakingToken;
-    IERC20 public immutable rewardToken;
+    IERC20 public immutable stakingToken; // CHR
+    IERC20 public immutable rewardToken;  // CHR (same token in v1)
 
-    // How many tokens per second are distributed (in 18 decimals)
+    // rewardRate = tokens per second (18 decimals)
     uint256 public rewardRate;
     uint256 public lastUpdateTime;
     uint256 public rewardPerTokenStored;
@@ -56,7 +57,7 @@ contract CharonStaking is Ownable, ReentrancyGuard {
         _;
     }
 
-    // Calculates how much reward each staked token has earned (scaled by 1e18)
+    /// @notice reward per staked token, scaled by 1e18
     function rewardPerToken() public view returns (uint256) {
         if (totalSupply == 0) {
             return rewardPerTokenStored;
@@ -65,7 +66,7 @@ contract CharonStaking is Ownable, ReentrancyGuard {
         return rewardPerTokenStored + ((elapsed * rewardRate * 1e18) / totalSupply);
     }
 
-    // How much reward a user has accumulated but not yet claimed
+    /// @notice pending rewards for a user
     function earned(address account) public view returns (uint256) {
         return
             (balances[account] *
@@ -74,6 +75,7 @@ contract CharonStaking is Ownable, ReentrancyGuard {
             rewards[account];
     }
 
+    /// @notice Stake CHR
     function stake(uint256 amount)
         external
         nonReentrant
@@ -92,7 +94,7 @@ contract CharonStaking is Ownable, ReentrancyGuard {
         emit Staked(msg.sender, amount);
     }
 
-    // Withdraw without claiming - useful if you want to keep earning on remaining stake
+    /// @notice Withdraw staked CHR (without claiming rewards)
     function withdraw(uint256 amount)
         public
         nonReentrant
@@ -112,6 +114,7 @@ contract CharonStaking is Ownable, ReentrancyGuard {
         emit Withdrawn(msg.sender, amount);
     }
 
+    /// @notice Claim pending rewards
     function getReward() public nonReentrant updateReward(msg.sender) {
         uint256 reward = rewards[msg.sender];
         if (reward > 0) {
@@ -124,7 +127,7 @@ contract CharonStaking is Ownable, ReentrancyGuard {
         }
     }
 
-    // Convenience function to pull everything out at once
+    /// @notice Withdraw all and claim rewards
     function exit() external {
         uint256 balance = balances[msg.sender];
         if (balance > 0) {
@@ -133,7 +136,10 @@ contract CharonStaking is Ownable, ReentrancyGuard {
         getReward();
     }
 
-    // Set the reward rate - make sure the contract has enough tokens first!
+    // ---------- Admin ----------
+
+    /// @notice Set reward rate (tokens per second, 18 decimals)
+    /// @dev Call this AFTER funding the contract with reward tokens
     function setRewardRate(uint256 _rewardRate)
         external
         onlyOwner
@@ -148,7 +154,7 @@ contract CharonStaking is Ownable, ReentrancyGuard {
         emit Paused(_paused);
     }
 
-    // Pull out tokens that aren't supposed to be here (but not the staking/reward tokens)
+    /// @notice Rescue tokens accidentally sent here (but not staking/reward token)
     function rescueTokens(
         address token,
         uint256 amount,

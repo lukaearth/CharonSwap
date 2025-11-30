@@ -9,8 +9,8 @@ import { formatUnits, parseUnits } from "viem";
 import STAKING_ABI from "../abi/CharonStaking.json";
 import CHR_ABI from "../abi/Charon.json";
 
-const STAKING_ADDRESS = "0x89519D9E2aE3B945a5Bdeb18C24eAE0c85feD9bD"; // TODO
-const OWNER_ADDRESS = "0x14e20cf1a9e7344721b48fd40d6f800ba9cbb314"; // TODO
+const STAKING_ADDRESS = "0x89519D9E2aE3B945a5Bdeb18C24eAE0c85feD9bD";
+const OWNER_ADDRESS = "0x14e20cf1a9e7344721b48fd40d6f800ba9cbb314";
 const DECIMALS = 18;
 const SECONDS_PER_YEAR = 365 * 24 * 60 * 60;
 
@@ -224,7 +224,6 @@ export default function AdminPanel() {
           </span>
         </div>
 
-        {/* stats */}
         <div className="grid grid-cols-3 gap-3 text-[11px] mb-4">
           <div className="rounded-xl bg-black/60 border border-zinc-800/80 px-3 py-2.5">
             <div className="text-zinc-500 mb-1">Total staked</div>
@@ -246,7 +245,6 @@ export default function AdminPanel() {
           </div>
         </div>
 
-        {/* APR + pause */}
         <div className="flex flex-wrap gap-3 items-center mb-4 text-[11px]">
           <div className="flex-1">
             <div className="text-zinc-500 mb-1">Current effective APR</div>
@@ -274,7 +272,6 @@ export default function AdminPanel() {
           </button>
         </div>
 
-        {/* APR editor */}
         <div className="mb-4">
           <div className="flex justify-between text-[11px] text-zinc-400 mb-1">
             <span>Target APR (%)</span>
@@ -306,7 +303,6 @@ export default function AdminPanel() {
           </div>
         </div>
 
-        {/* emergency drain */}
         <div className="mt-4 pt-4 border-t border-zinc-800/70">
           <div className="text-[11px] text-zinc-400 mb-2">
             Emergency drain (non-CHR tokens only)

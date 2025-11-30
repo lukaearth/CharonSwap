@@ -5,17 +5,20 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
+/// @title Charon Faucet
+/// @notice Simple faucet for CHR + FETH on Sepolia with per-wallet cooldown
 contract CharonFaucet is Ownable, ReentrancyGuard {
     IERC20 public immutable chrToken;
     IERC20 public immutable fethToken;
 
-    // Default drip amounts - owner can adjust these
-    uint256 public chrAmount = 1_000 * 1e18;
-    uint256 public fethAmount = 5e17;
+    // drip amounts (18 decimals)
+    uint256 public chrAmount = 1_000 * 1e18;    // 1000 CHR
+    uint256 public fethAmount = 5e17;           // 0.5 FETH
 
-    // 12 hour cooldown prevents abuse but keeps it usable for testing
+    // cooldown between drips per wallet (in seconds)
     uint256 public cooldown = 12 hours;
 
+    // last claim timestamps
     mapping(address => uint256) public lastChrDrip;
     mapping(address => uint256) public lastFethDrip;
 
@@ -33,6 +36,8 @@ contract CharonFaucet is Ownable, ReentrancyGuard {
         chrToken = IERC20(_chr);
         fethToken = IERC20(_feth);
     }
+
+    // ---------- Modifiers ----------
 
     modifier notPaused() {
         require(!paused, "Faucet paused");
@@ -55,6 +60,8 @@ contract CharonFaucet is Ownable, ReentrancyGuard {
         _;
     }
 
+    // ---------- View helpers ----------
+
     function nextChrAvailable(address user) external view returns (uint256) {
         uint256 nextTime = lastChrDrip[user] + cooldown;
         if (block.timestamp >= nextTime) return 0;
@@ -67,6 +74,9 @@ contract CharonFaucet is Ownable, ReentrancyGuard {
         return nextTime - block.timestamp;
     }
 
+    // ---------- Drip functions ----------
+
+    /// @notice Get CHR from faucet (1000 CHR default)
     function dripCHR()
         external
         nonReentrant
@@ -88,6 +98,7 @@ contract CharonFaucet is Ownable, ReentrancyGuard {
         emit DripCHR(msg.sender, chrAmount);
     }
 
+    /// @notice Get FETH from faucet (0.5 FETH default)
     function dripFETH()
         external
         nonReentrant
@@ -109,7 +120,7 @@ contract CharonFaucet is Ownable, ReentrancyGuard {
         emit DripFETH(msg.sender, fethAmount);
     }
 
-    // Claim both tokens at once - saves gas if you need both
+    /// @notice Convenience: drip both tokens in one tx
     function dripBoth()
         external
         nonReentrant
@@ -151,6 +162,8 @@ contract CharonFaucet is Ownable, ReentrancyGuard {
         emit DripBoth(msg.sender, chrAmount, fethAmount);
     }
 
+    // ---------- Admin controls ----------
+
     function setPaused(bool _paused) external onlyOwner {
         paused = _paused;
         emit Paused(_paused);
@@ -171,7 +184,7 @@ contract CharonFaucet is Ownable, ReentrancyGuard {
         emit AmountsUpdated(_chrAmount, _fethAmount);
     }
 
-    // Emergency function to pull out tokens if something goes wrong
+    /// @notice Rescue *any* ERC20 from faucet (including CHR/FETH if needed)
     function rescueTokens(
         address token,
         uint256 amount,

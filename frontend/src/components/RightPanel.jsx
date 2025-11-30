@@ -8,7 +8,7 @@ import {
     CartesianGrid,
   } from "recharts";
   
-  // fake CHR/FETH price data (you can tweak later)
+  // Mock price data for the chart
   const data = [
     { time: "10:00", price: 0.00095 },
     { time: "11:00", price: 0.00102 },
@@ -19,7 +19,6 @@ import {
     { time: "16:00", price: 0.00112 },
   ];
   
-  // custom tooltip component
   function PriceTooltip({ active, payload, label }) {
     if (!active || !payload || !payload.length) return null;
   
@@ -31,7 +30,7 @@ import {
         <div className="font-semibold text-emerald-400">
           {p.toFixed(6)} FETH
         </div>
-        <div className="text-[11px] text-zinc-500">per 1 CHR (mock data)</div>
+        <div className="text-[11px] text-zinc-500">per 1 CHR</div>
       </div>
     );
   }
@@ -39,7 +38,6 @@ import {
   export default function RightPanel() {
     return (
       <div className="space-y-6 w-full">
-        {/* Pair header / stats */}
         <div className="bg-[#0b0d11]/90 backdrop-blur-xl rounded-2xl border border-white/5 shadow-[0_0_40px_rgba(0,0,0,0.6)] p-6">
           <div className="flex items-center justify-between">
             <div>
@@ -78,7 +76,6 @@ import {
           </div>
         </div>
   
-        {/* Chart card */}
         <div className="bg-[#0b0d11]/90 backdrop-blur-xl rounded-2xl border border-white/5 shadow-[0_0_40px_rgba(0,0,0,0.6)] p-6">
           <div className="flex items-center justify-between mb-4">
             <div className="text-sm font-semibold text-white">Price Chart</div>
@@ -98,11 +95,9 @@ import {
             </div>
           </div>
   
-          {/* Chart */}
           <div className="h-56 rounded-xl bg-gradient-to-b from-[#141821] to-[#05070b] border border-white/5 px-3 py-2">
             <ResponsiveContainer width="100%" height="100%">
               <LineChart data={data} margin={{ top: 10, right: 20, left: 0, bottom: 10 }}>
-                {/* subtle grid */}
                 <CartesianGrid
                   stroke="#262a33"
                   strokeDasharray="3 3"
@@ -152,7 +147,7 @@ import {
           </div>
   
           <p className="text-[11px] text-zinc-600 mt-3">
-            Mock data only — later you can derive this from on-chain reserves.
+            Using mock data for now
           </p>
         </div>
       </div>

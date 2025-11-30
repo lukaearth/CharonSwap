@@ -37,7 +37,6 @@ export default function Swap() {
   const TOKEN_IN_SYMBOL = swapCHRtoFETH ? "CHR" : "FETH";
   const TOKEN_OUT_SYMBOL = swapCHRtoFETH ? "FETH" : "CHR";
 
-  // Reserves & balances
   const { data: reserves } = useReadContract({
     address: DEX_ADDRESS,
     abi: DEX_ABI,
@@ -69,7 +68,6 @@ export default function Swap() {
   const needsApproval = !!amountIn && allowance < Number(amountIn);
   const insufficientBalance = !!amountIn && balance < Number(amountIn);
 
-  // Price & calculations
   const [price, setPrice] = useState(null);
   const [priceImpact, setPriceImpact] = useState(null);
   const [lpFeeAmount, setLpFeeAmount] = useState(null);
@@ -115,11 +113,9 @@ export default function Swap() {
     }
   }, [amountIn, reserves, slippage, swapCHRtoFETH]);
 
-  // Toast
   const openToast = (type, title, desc, hash) => setToast({ type, title, desc, hash });
   const closeToast = () => setToast(null);
 
-  // Actions
   const handleApprove = async () => {
     if (!amountIn) return;
     try {
@@ -188,17 +184,14 @@ export default function Swap() {
 
   return (
     <div className="relative min-h-screen bg-[#050709] text-white font-inter overflow-hidden">
-      {/* Background */}
       <div className="absolute inset-0 opacity-[0.18]"><Starfield /></div>
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(74,222,128,0.16),transparent_55%),radial-gradient(circle_at_bottom,rgba(22,101,52,0.5),#02040a_70%)]" />
 
       <div className="relative z-10 flex min-h-screen flex-col">
         <Navbar />
 
-        {/* HERO */}
         <main className="flex flex-1 items-center justify-center px-6 py-20">
           <div className="w-full max-w-2xl text-center">
-            {/* Badge */}
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-400/40 bg-black/40 px-5 py-1.5 text-xs font-medium text-emerald-300 shadow-[0_0_25px_rgba(16,185,129,0.45)]">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
               CharonDEX • AMM on Sepolia
@@ -212,16 +205,13 @@ export default function Swap() {
               Trade CHR ↔ FETH with 0.3% fees and deep liquidity. Powered by constant product AMM.
             </p>
 
-            {/* Swap Card */}
             <div className="mt-12 mx-auto max-w-lg">
               <div className="relative rounded-3xl bg-black/40 border border-white/10 backdrop-blur-2xl p-8 shadow-2xl overflow-hidden">
-                {/* Glow Orbs */}
                 <div className="pointer-events-none absolute -top-32 -left-32 h-64 w-64 rounded-full bg-emerald-500/20 blur-3xl" />
                 <div className="pointer-events-none absolute -bottom-32 -right-32 h-72 w-72 rounded-full bg-emerald-300/20 blur-3xl" />
 
                 <div className="relative z-10">
 
-                  {/* Direction Toggle */}
                   <button
                     onClick={() => setSwapCHRtoFETH(v => !v)}
                     className="w-full py-3 rounded-2xl bg-black/50 border border-zinc-700 text-sm font-medium text-zinc-300 hover:border-emerald-500 hover:text-emerald-300 transition-all duration-300 flex items-center justify-center gap-2 group"
@@ -230,7 +220,6 @@ export default function Swap() {
                     <span className="text-emerald-400 group-hover:translate-x-1 transition-transform">↔</span>
                   </button>
 
-                  {/* Input */}
                   <div className="mt-6">
                     <div className="flex justify-between text-sm text-zinc-400 mb-2">
                       <span>From</span>
@@ -256,7 +245,6 @@ export default function Swap() {
                     </div>
                   </div>
 
-                  {/* Output */}
                   <div className="mt-6">
                     <div className="text-sm text-zinc-400 mb-2">To</div>
                     <div className="flex items-center gap-4 bg-black/50 border border-white/10 rounded-2xl p-4">
@@ -272,7 +260,6 @@ export default function Swap() {
                     </div>
                   </div>
 
-                  {/* Stats */}
                   {amountOut && (
                     <div className="mt-6 grid grid-cols-2 gap-4 text-sm">
                       <div className="bg-black/40 border border-white/10 rounded-xl p-4">
@@ -290,7 +277,6 @@ export default function Swap() {
                     </div>
                   )}
 
-                  {/* Primary Button */}
                   <button
                     disabled={!canSwap && !needsApproval}
                     onClick={needsApproval ? handleApprove : handleSwap}
@@ -305,7 +291,6 @@ export default function Swap() {
                     {primaryLabel}
                   </button>
 
-                  {/* Slippage */}
                   <button
                     onClick={() => setShowSlippageModal(true)}
                     className="mt-4 w-full text-center text-xs text-zinc-400 hover:text-emerald-300 transition"
@@ -315,7 +300,6 @@ export default function Swap() {
                 </div>
               </div>
 
-              {/* Recent Swaps */}
               {history.length > 0 && (
                 <div className="mt-8 bg-black/40 border border-white/10 rounded-2xl p-6 backdrop-blur-xl">
                   <h3 className="text-sm font-medium text-zinc-400 mb-4">Recent Swaps</h3>
@@ -340,7 +324,6 @@ export default function Swap() {
         </footer>
       </div>
 
-      {/* Toast */}
       {toast && (
         <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
           <div className="absolute inset-0 bg-black/70" onClick={closeToast} />
@@ -365,7 +348,6 @@ export default function Swap() {
         </div>
       )}
 
-      {/* Slippage Modal */}
       {showSlippageModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center">
           <div className="absolute inset-0 bg-black/70" onClick={() => setShowSlippageModal(false)} />

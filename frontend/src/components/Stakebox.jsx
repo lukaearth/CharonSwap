@@ -160,17 +160,14 @@ export default function Stake() {
 
   return (
     <div className="relative min-h-screen bg-[#050709] text-white font-inter overflow-hidden">
-      {/* Background */}
       <div className="absolute inset-0 opacity-[0.18]"><Starfield /></div>
       <div className="pointer-events-none absolute inset-0 bg-[radial-gradient(circle_at_top,rgba(74,222,128,0.16),transparent_55%),radial-gradient(circle_at_bottom,rgba(22,101,52,0.5),#02040a_70%)]" />
 
       <div className="relative z-10 flex min-h-screen flex-col">
         <Navbar />
 
-        {/* HERO */}
         <main className="flex flex-1 items-center justify-center px-6 py-20">
           <div className="w-full max-w-2xl text-center">
-            {/* Badge */}
             <div className="mb-6 inline-flex items-center gap-2 rounded-full border border-emerald-400/40 bg-black/40 px-5 py-1.5 text-xs font-medium text-emerald-300 shadow-[0_0_25px_rgba(16,185,129,0.45)]">
               <span className="h-1.5 w-1.5 rounded-full bg-emerald-400 animate-pulse" />
               CHR Staking Vault • Earn Passive Yield
@@ -184,7 +181,6 @@ export default function Stake() {
               Lock your CHR to earn auto-compounding rewards. APR adjusts dynamically with pool size.
             </p>
 
-            {/* Stats Grid */}
             <div className="mt-12 grid grid-cols-1 sm:grid-cols-3 gap-6 max-w-3xl mx-auto">
               <div className="rounded-2xl bg-black/40 border border-white/10 backdrop-blur-xl p-6 shadow-xl">
                 <p className="text-sm text-zinc-500">Current APR</p>
@@ -206,14 +202,12 @@ export default function Stake() {
               </div>
             </div>
 
-            {/* Staking Card */}
             <div className="mt-12 mx-auto max-w-lg">
               <div className="relative rounded-3xl bg-black/40 border border-white/10 backdrop-blur-2xl p-10 shadow-2xl overflow-hidden">
                 <div className="pointer-events-none absolute -top-40 -left-40 h-80 w-80 rounded-full bg-emerald-500/20 blur-3xl" />
                 <div className="pointer-events-none absolute -bottom-40 -right-40 h-80 w-80 rounded-full bg-emerald-300/20 blur-3xl" />
 
                 <div className="relative z-10">
-                  {/* Your Position */}
                   <div className="grid grid-cols-2 gap-6 mb-8 text-center">
                     <div>
                       <p className="text-sm text-zinc-500">Wallet Balance</p>
@@ -225,7 +219,6 @@ export default function Stake() {
                     </div>
                   </div>
 
-                  {/* Pool Share */}
                   {staked > 0 && (
                     <div className="mb-8">
                       <div className="flex justify-between text-sm text-zinc-400 mb-3">
@@ -241,7 +234,6 @@ export default function Stake() {
                     </div>
                   )}
 
-                  {/* Amount Input */}
                   <div className="mb-8">
                     <div className="flex justify-between text-sm text-zinc-400 mb-3">
                       <span>Amount to stake / unstake</span>
@@ -269,7 +261,6 @@ export default function Stake() {
                     )}
                   </div>
 
-                  {/* Action Buttons */}
                   <div className="grid grid-cols-2 gap-4">
                     <button
                       onClick={handleStake}
@@ -300,7 +291,6 @@ export default function Stake() {
                     </button>
                   </div>
 
-                  {/* Claim Button */}
                   <button
                     onClick={handleClaim}
                     disabled={!canClaim || isClaiming}
@@ -325,7 +315,6 @@ export default function Stake() {
         </footer>
       </div>
 
-      {/* Toast */}
       {toast && (
         <div className="fixed inset-0 z-50 flex items-center justify-center pointer-events-none">
           <div className="absolute inset-0 bg-black/70" onClick={closeToast} />

@@ -1,5 +1,3 @@
-// FULL UPDATED COMPACT SWAP PAGE WITH HYBRID ANIMATIONS
-
 import { useState, useEffect } from "react";
 import {
   useAccount,
@@ -203,12 +201,10 @@ export default function Swap() {
 
   return (
     <div className="relative min-h-screen bg-[#050709] text-white font-inter overflow-hidden">
-      {/* Starfield */}
       <div className="absolute inset-0 opacity-[0.18]">
         <Starfield />
       </div>
 
-      {/* Ambient Glow Pulse */}
       <motion.div
         initial={{ opacity: 0.25 }}
         animate={{ opacity: [0.25, 0.38, 0.25] }}
@@ -221,14 +217,12 @@ export default function Swap() {
       <div className="relative z-10 flex min-h-screen flex-col">
         <main className="flex flex-1 items-center justify-center px-4 pt-10 pb-16">
 
-          {/* COMPACT CONTAINER */}
           <motion.div
             initial={{ opacity: 0, y: 24 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.7 }}
             className="w-full max-w-md mx-auto text-center"
           >
-            {/* Badge */}
             <motion.div
               initial={{ opacity: 0, y: -10 }}
               animate={{ opacity: 1, y: 0 }}
@@ -239,7 +233,6 @@ export default function Swap() {
               CharonDEX AMM
             </motion.div>
 
-            {/* Title */}
             <motion.h1
               initial={{ opacity: 0, y: 14 }}
               animate={{ opacity: 1, y: 0 }}
@@ -249,7 +242,6 @@ export default function Swap() {
               Swap your CHR/FETH
             </motion.h1>
 
-            {/* Subcopy */}
             <motion.p
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
@@ -259,7 +251,6 @@ export default function Swap() {
               Compact CHR/FETH AMM for instant swaps.
             </motion.p>
 
-            {/* CARD */}
             <motion.div
               initial={{ opacity: 0, y: 26 }}
               animate={{
@@ -272,12 +263,10 @@ export default function Swap() {
               }}
               className="mt-8 rounded-2xl bg-black/40 border border-white/10 backdrop-blur-xl p-6 relative overflow-hidden"
             >
-              {/* Glows */}
               <div className="absolute -top-20 -left-20 h-40 w-40 bg-emerald-500/20 rounded-full blur-2xl pointer-events-none" />
               <div className="absolute -bottom-20 -right-20 h-40 w-40 bg-emerald-300/20 rounded-full blur-2xl pointer-events-none" />
 
               <div className="relative z-10">
-                {/* Direction Button */}
                 <motion.button
                   whileHover={{ y: -1, scale: 1.01 }}
                   onClick={() => setSwapCHRtoFETH((v) => !v)}
@@ -287,7 +276,6 @@ export default function Swap() {
                   <span className="text-emerald-400">↕</span>
                 </motion.button>
 
-                {/* INPUT */}
                 <div className="mt-6">
                   <div className="flex justify-between text-[11px] text-zinc-400 mb-1">
                     <span>From</span>
@@ -313,7 +301,6 @@ export default function Swap() {
                   </div>
                 </div>
 
-                {/* OUTPUT */}
                 <div className="mt-4">
                   <div className="text-[11px] text-zinc-400 mb-1">To</div>
                   <div className="flex items-center gap-3 bg-black/50 border border-white/10 rounded-xl p-4">
@@ -329,7 +316,6 @@ export default function Swap() {
                   </div>
                 </div>
 
-                {/* STATS */}
                 {amountOut && (
                   <motion.div
                     initial={{ opacity: 0, y: 16 }}
@@ -361,7 +347,6 @@ export default function Swap() {
                   </motion.div>
                 )}
 
-                {/* BUTTON */}
                 <motion.button
                   whileHover={
                     canSwap || (needsApproval && !isApproving)
@@ -379,7 +364,6 @@ export default function Swap() {
                   {primaryLabel}
                 </motion.button>
 
-                {/* Slippage */}
                 <button
                   onClick={() => setShowSlippageModal(true)}
                   className="mt-3 w-full text-center text-[11px] text-zinc-400 hover:text-emerald-300 transition"
@@ -389,7 +373,6 @@ export default function Swap() {
               </div>
             </motion.div>
 
-            {/* HISTORY */}
             {history.length > 0 && (
               <motion.div
                 initial={{ opacity: 0, y: 18 }}
@@ -427,7 +410,6 @@ export default function Swap() {
         <Footer />
       </div>
 
-      {/* Toast */}
       {toast && (
         <motion.div
           initial={{ opacity: 0 }}
@@ -463,7 +445,6 @@ export default function Swap() {
         </motion.div>
       )}
 
-      {/* Slippage Modal */}
       {showSlippageModal && (
         <motion.div
           initial={{ opacity: 0 }}

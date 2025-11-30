@@ -7,12 +7,10 @@ export default function About() {
   return (
     <div className="relative min-h-screen bg-[#050709] text-white font-inter overflow-hidden">
       
-      {/* Background Starfield */}
       <div className="absolute inset-0 opacity-[0.18]">
         <Starfield />
       </div>
 
-      {/* Ambient Glow Pulse */}
       <motion.div
         initial={{ opacity: 0.25 }}
         animate={{ opacity: [0.25, 0.38, 0.25] }}
@@ -22,12 +20,10 @@ export default function About() {
 
       <Navbar />
 
-      {/* Page Content */}
       <div className="relative z-10 flex min-h-screen flex-col">
         <main className="flex-1 px-6 pt-24 pb-32">
           <div className="mx-auto max-w-4xl">
 
-            {/* Badge */}
             <motion.div
               initial={{ opacity: 0, y: -12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -38,7 +34,6 @@ export default function About() {
               About CharonSwap
             </motion.div>
 
-            {/* Headline with parallax float */}
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{
@@ -57,7 +52,6 @@ export default function About() {
               </span>
             </motion.h1>
 
-            {/* Intro paragraph */}
             <motion.p
               initial={{ opacity: 0, y: 24 }}
               animate={{ opacity: 1, y: 0 }}
@@ -68,7 +62,6 @@ export default function About() {
               It includes an AMM DEX, staking mechanism, wallet integration, and a fully custom frontend built by me.
             </motion.p>
 
-            {/* Mission / Vision */}
             <motion.section
               initial={{ opacity: 0, y: 32 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -93,7 +86,6 @@ export default function About() {
               </div>
             </motion.section>
 
-            {/* Skills Used */}
             <motion.section
               initial={{ opacity: 0, y: 35 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -105,7 +97,6 @@ export default function About() {
                 Skills Used In This Project
               </h2>
 
-              {/* Stagger grid */}
               <motion.div
                 className="grid sm:grid-cols-2 gap-6 max-w-3xl mx-auto"
                 initial="hidden"
@@ -141,7 +132,6 @@ export default function About() {
               </motion.div>
             </motion.section>
 
-            {/* The Builder */}
             <motion.section
               initial={{ opacity: 0, y: 35 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -168,7 +158,6 @@ export default function About() {
               </p>
             </motion.section>
 
-            {/* GitHub Button */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}
@@ -210,7 +199,6 @@ export default function About() {
               </motion.a>
             </motion.div>
 
-            {/* CTA */}
             <motion.div
               initial={{ opacity: 0, y: 20 }}
               whileInView={{ opacity: 1, y: 0 }}

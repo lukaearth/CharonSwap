@@ -9,12 +9,10 @@ import Footer from "../components/Footer"
 export default function Landing() {
   return (
     <div className="relative min-h-screen bg-[#050709] text-white font-inter overflow-hidden">
-      {/* Background layers */}
       <div className="absolute inset-0 opacity-[0.18]">
         <Starfield />
       </div>
 
-      {/* Ambient radial glow pulse */}
       <motion.div
         initial={{ opacity: 0.25 }}
         animate={{ opacity: [0.25, 0.35, 0.25] }}
@@ -26,11 +24,9 @@ export default function Landing() {
 
       <div className="relative z-10 flex min-h-screen flex-col">
 
-        {/* HERO */}
         <main className="flex flex-1 items-center justify-center">
           <section className="relative mx-auto flex w-full max-w-4xl flex-col items-center px-6 pt-14 pb-24 text-center">
 
-            {/* badge */}
             <motion.div
               initial={{ opacity: 0, y: -12 }}
               animate={{ opacity: 1, y: 0 }}
@@ -41,12 +37,11 @@ export default function Landing() {
               Crypto AMM • Testnet
             </motion.div>
 
-            {/* headline float parallax */}
             <motion.h1
               initial={{ opacity: 0, y: 20 }}
               animate={{
                 opacity: 1,
-                y: [0, -4, 0], // gentle float
+                y: [0, -4, 0],
               }}
               transition={{
                 duration: 0.8,
@@ -64,7 +59,6 @@ export default function Landing() {
               </span>
             </motion.h1>
 
-            {/* sub copy */}
             <motion.p
               initial={{ opacity: 0, y: 22 }}
               animate={{ opacity: 1, y: 0 }}
@@ -75,7 +69,6 @@ export default function Landing() {
               from Solidity contracts to a production-style frontend. Built entirely by me and deployed on the Sepolia testnet.
             </motion.p>
 
-            {/* glowing arc + buttons */}
             <motion.div
               initial={{ opacity: 0, y: 28 }}
               animate={{ opacity: 1, y: 0 }}
@@ -91,10 +84,8 @@ export default function Landing() {
                 className="pointer-events-auto relative -mt-20 flex flex-col items-center"
               >
 
-                {/* BUTTON ROW */}
                 <div className="flex flex-col sm:flex-row items-center gap-4 mt-4">
 
-                  {/* Primary Button */}
                   <motion.div whileHover={{ y: -3 }}>
                     <Link
                       to="/faucet"
@@ -119,7 +110,6 @@ export default function Landing() {
                     </Link>
                   </motion.div>
 
-                  {/* Secondary Button */}
                   <motion.div whileHover={{ y: -3 }}>
                     <Link
                       to="/about"
@@ -144,7 +134,6 @@ export default function Landing() {
               </motion.div>
             </motion.div>
 
-            {/* logos row */}
             <motion.div
               initial={{ opacity: 0, y: 26 }}
               whileInView={{ opacity: 1, y: 0 }}

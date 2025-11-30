@@ -24,13 +24,13 @@ export default function Analytics() {
       const chrRes = Number(formatUnits(r0, 18));
       const fethRes = Number(formatUnits(r1, 18));
 
-      // Simple price: price = FETH/CHR
+      // Price is just FETH per CHR
       const priceCalc = fethRes / chrRes;
 
-      // Fake volume generator
+      // Random volume for demo purposes
       const randomVolume = (Math.random() * 1000).toFixed(2);
 
-      // Fake TVL: treat FETH as $2000
+      // Rough TVL estimate assuming FETH = $2000
       const tvlCalc = fethRes * 2000 + chrRes * (priceCalc * 2000);
 
       setReserves({ chr: chrRes, feth: fethRes });
@@ -62,7 +62,6 @@ export default function Analytics() {
         <StatCard title="Pool FETH Reserve" value={`${reserves.feth.toFixed(4)} FETH`} />
       </div>
 
-      {/* Placeholder Chart */}
       <div className="mt-10 p-6 rounded-xl bg-white/5 border border-white/10">
         <div className="text-lg font-semibold mb-3">Price Chart</div>
         <div className="h-64 rounded-lg bg-gradient-to-br from-emerald-500/10 to-black"></div>
