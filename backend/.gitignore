@@ -4,6 +4,10 @@ node_modules
 # Hardhat files
 /cache
 /artifacts
+contracts/CharonDex
+contracts/CharonFaucet
+contracts/CharonStakingLocked
+contracts/Lock
 
 # TypeChain files
 /typechain

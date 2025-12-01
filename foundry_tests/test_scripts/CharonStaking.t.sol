@@ -28,14 +28,14 @@ contract CharonStakingTest is Test {
         token = new MockToken("Charon", "CHR");
         staking = new CharonStaking(address(token));
 
-        // Mint tokens to users
+        // Seed users with CHR for staking
         token.mint(user1, INITIAL_SUPPLY);
         token.mint(user2, INITIAL_SUPPLY);
 
-        // Mint reward buffer to staking contract
+        // Prefund staking contract with rewards
         token.mint(address(staking), INITIAL_SUPPLY);
 
-        // Approvals
+        // Approve staking contract once per user
         vm.startPrank(user1);
         token.approve(address(staking), type(uint256).max);
         vm.stopPrank();
@@ -45,7 +45,7 @@ contract CharonStakingTest is Test {
         vm.stopPrank();
     }
 
-    // ----------------- Basics -----------------
+    // Basics
 
     function testInitialState() public {
         assertEq(address(staking.stakingToken()), address(token));
@@ -80,7 +80,7 @@ contract CharonStakingTest is Test {
         staking.stake(1 ether);
     }
 
-    // ----------------- Withdraw -----------------
+    // Withdraw
 
     function testWithdrawUpdatesBalancesAndTotalSupply() public {
         uint256 amount = 100 ether;
@@ -126,7 +126,7 @@ contract CharonStakingTest is Test {
         staking.withdraw(amount + 1);
     }
 
-    // ----------------- rewardPerToken & earned -----------------
+    // rewardPerToken & earned
 
     function testRewardPerTokenNoSupplyDoesNotChange() public {
         uint256 beforeStored = staking.rewardPerTokenStored();
@@ -156,7 +156,7 @@ contract CharonStakingTest is Test {
 
         uint256 expectedReward = rate * duration;
 
-        // user’s stake is still in the contract — they didn't withdraw it
+        // Stake remains in the contract; balance reflects rewards only
         uint256 expectedBalance = INITIAL_SUPPLY - stakeAmount + expectedReward;
 
         assertEq(token.balanceOf(user1), expectedBalance);
@@ -207,7 +207,7 @@ contract CharonStakingTest is Test {
         assertEq(earned2, seg2User2);
     }
 
-    // ----------------- getReward & exit -----------------
+    // getReward & exit
 
     function testGetRewardDoesNothingIfZero() public {
         vm.prank(user1);
@@ -240,7 +240,7 @@ contract CharonStakingTest is Test {
         );
     }
 
-    // ----------------- Admin (corrected for OZ v5) -----------------
+    // Admin
 
     function testOnlyOwnerCanSetPaused() public {
         vm.startPrank(user1);
@@ -279,10 +279,10 @@ contract CharonStakingTest is Test {
         assertEq(staking.rewardRate(), rate);
     }
 
-    // ----------------- rescueTokens -----------------
+    // rescueTokens
 
-    // In this contract, stakingToken == rewardToken
-    // So BOTH revert checks collapse into the *first* one.
+    // stakingToken and rewardToken are the same in this deployment, so the revert
+    // path is identical for both checks.
     function testRescueTokensCannotRescueRewardToken() public {
         vm.expectRevert(bytes("Cannot rescue staking token"));
         staking.rescueTokens(address(token), 1 ether, other);
@@ -303,7 +303,7 @@ contract CharonStakingTest is Test {
         assertEq(oth.balanceOf(address(staking)), 500 ether);
     }
 
-    // ----------------- Fuzz -----------------
+    // Fuzz
 
     function testFuzz_StakeAndWithdraw(uint96 amount) public {
         vm.assume(amount > 0 && amount < INITIAL_SUPPLY);

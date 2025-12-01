@@ -5,8 +5,8 @@ async function main() {
   const FETH = "0xeF84b001145F02937020bC757f771075f6bB1923";
   const TREASURY = "0x14e20cf1a9e7344721b48fd40d6f800ba9cbb314";
 
-  const protocolFee = 1; // 0.1% to treasury
-  // total swapFee defaults to 0.3% (3), so LPs get 0.2%
+  const protocolFee = 1; // 0.1% directed to the treasury
+  // Total swap fee stays at 0.3% (value 3), so LPs net 0.2%
 
   const Dex = await hre.ethers.getContractFactory("CharonDexV3");
   const dex = await Dex.deploy(CHR, FETH, TREASURY, protocolFee);

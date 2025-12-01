@@ -46,8 +46,8 @@ contract CharonStakingLocked is Ownable, ReentrancyGuard {
         stakingToken = IERC20(_stakingToken);
         rewardToken = IERC20(_stakingToken);
 
-        // default pools
-        _configurePool(0, 30 days, 0, true);   // set rewardRate later
+        // Default pools; reward rates get configured after funding
+        _configurePool(0, 30 days, 0, true);
         _configurePool(1, 90 days, 0, true);
         _configurePool(2, 180 days, 0, true);
     }
@@ -134,7 +134,7 @@ contract CharonStakingLocked is Ownable, ReentrancyGuard {
 
         UserStake storage st = userStakes[msg.sender][poolId];
 
-        // reset unlock from now
+        // Restart the lock timer from this deposit
         st.unlockTime = block.timestamp + pool.duration;
 
         pool.totalSupply += amount;

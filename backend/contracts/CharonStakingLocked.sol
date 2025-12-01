@@ -5,7 +5,7 @@ import {IERC20} from "@openzeppelin/contracts/token/ERC20/IERC20.sol";
 import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
-// Locked staking with multiple pools - longer locks get better rates
+// Locked staking where longer commitments earn higher rates
 contract CharonStakingLocked is Ownable, ReentrancyGuard {
     IERC20 public immutable stakingToken;
     IERC20 public immutable rewardToken;
@@ -44,7 +44,7 @@ contract CharonStakingLocked is Ownable, ReentrancyGuard {
         stakingToken = IERC20(_stakingToken);
         rewardToken = IERC20(_stakingToken);
 
-        // Initialize the three pools - reward rates get set by owner later
+        // Preload common lock terms; reward rates get funded later
         _configurePool(0, 30 days, 0, true);
         _configurePool(1, 90 days, 0, true);
         _configurePool(2, 180 days, 0, true);
@@ -85,7 +85,7 @@ contract CharonStakingLocked is Ownable, ReentrancyGuard {
         emit PoolConfigured(poolId, duration, rewardRate, active);
     }
 
-    // Owner can set up new pools or adjust existing ones
+    // Owner can adjust pools or add new lock terms
     function configurePool(
         uint8 poolId,
         uint256 duration,
@@ -108,16 +108,12 @@ contract CharonStakingLocked is Ownable, ReentrancyGuard {
     }
 
     function earned(address account, uint8 poolId) public view returns (uint256) {
-        Pool storage pool = pools[poolId];
         UserStake storage st = userStakes[account][poolId];
-
-        return
-            (st.balance * (rewardPerToken(poolId) - st.rewardPerTokenPaid)) /
-            1e18 +
-            st.rewards;
+        uint256 delta = rewardPerToken(poolId) - st.rewardPerTokenPaid;
+        return (st.balance * delta) / 1e18 + st.rewards;
     }
 
-    // Staking resets your unlock timer - so if you add more, the whole stake locks for the full duration again
+    // Each deposit refreshes the lock, so the full balance shares one unlock time
     function stake(uint8 poolId, uint256 amount)
         external
         nonReentrant
@@ -130,7 +126,7 @@ contract CharonStakingLocked is Ownable, ReentrancyGuard {
 
         UserStake storage st = userStakes[msg.sender][poolId];
 
-        // Adding more resets the timer - your whole stake locks for the full duration
+        // Restart the lock window for the entire position
         st.unlockTime = block.timestamp + pool.duration;
 
         pool.totalSupply += amount;
@@ -144,7 +140,7 @@ contract CharonStakingLocked is Ownable, ReentrancyGuard {
         emit Staked(msg.sender, poolId, amount, st.unlockTime);
     }
 
-    // Can only withdraw after the lock period is up
+    // Withdraw only after the lock expires
     function withdraw(uint8 poolId, uint256 amount)
         public
         nonReentrant
@@ -165,7 +161,7 @@ contract CharonStakingLocked is Ownable, ReentrancyGuard {
         emit Withdrawn(msg.sender, poolId, amount);
     }
 
-    // You can claim rewards anytime, even while locked
+    // Rewards remain claimable even while locked
     function getReward(uint8 poolId)
         public
         nonReentrant
@@ -183,7 +179,7 @@ contract CharonStakingLocked is Ownable, ReentrancyGuard {
         }
     }
 
-    // Pull out everything you can (stake only if unlocked) and claim rewards
+    // Withdraw what is unlocked and claim rewards in one call
     function exit(uint8 poolId) external {
         UserStake storage st = userStakes[msg.sender][poolId];
         uint256 bal = st.balance;
@@ -193,7 +189,7 @@ contract CharonStakingLocked is Ownable, ReentrancyGuard {
         getReward(poolId);
     }
 
-    // Emergency recovery for tokens that shouldn't be here
+    // Emergency escape hatch for unrelated tokens
     function rescueTokens(
         address token,
         uint256 amount,

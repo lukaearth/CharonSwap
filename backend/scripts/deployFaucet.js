@@ -1,4 +1,3 @@
-// scripts/deployFaucet.js
 const hre = require("hardhat");
 
 async function main() {

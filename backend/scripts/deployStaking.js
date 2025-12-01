@@ -3,7 +3,7 @@ const { ethers } = require("hardhat");
 async function main() {
   console.log("Deploying CharonStaking...");
 
-  // Replace with YOUR CHR token address
+  // Update with your CHR token address before deploying
   const CHR_TOKEN = "0x1Cf7355a7cfD8Fa9718ABF77873D384995eed6aa";
 
   const Staking = await ethers.getContractFactory("CharonStaking");

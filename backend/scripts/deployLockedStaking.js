@@ -8,7 +8,7 @@ async function main() {
   const StakingLocked = await hre.ethers.getContractFactory("CharonStakingLocked");
   const stakingLocked = await StakingLocked.deploy(CHR_ADDRESS);
 
-  await stakingLocked.deployed();   // <-- THIS is correct for Hardhat 2.x
+  await stakingLocked.deployed();   // Hardhat 2.x still requires this await
 
   console.log("CharonStakingLocked deployed at:", stakingLocked.address);
 }

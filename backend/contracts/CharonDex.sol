@@ -12,7 +12,7 @@ contract CharonDex is ERC20, ReentrancyGuard {
     uint256 public reserve0;
     uint256 public reserve1;
 
-    // 0.3% swap fee - standard for most AMMs
+    // 0.3% swap fee
     uint256 public constant FEE_NUMERATOR = 3;
     uint256 public constant FEE_DENOMINATOR = 1000;
 
@@ -26,7 +26,7 @@ contract CharonDex is ERC20, ReentrancyGuard {
         require(_token0 != address(0) && _token1 != address(0), "Invalid token");
         require(_token0 != _token1, "Tokens must be different");
 
-        // Keep tokens in sorted order to avoid ambiguity - makes swap logic simpler
+        // Keep tokens sorted so swap math stays deterministic
         require(_token0 < _token1, "token0 must be < token1");
 
         token0 = _token0;
@@ -48,14 +48,14 @@ contract CharonDex is ERC20, ReentrancyGuard {
         (uint256 _reserve0, uint256 _reserve1) = getReserves();
 
         if (_reserve0 == 0 && _reserve1 == 0) {
-            // First LP deposit sets the initial price - they can use whatever ratio they want
+            // First LP deposit sets the initial price with whatever ratio they choose
             amount0 = amount0Desired;
             amount1 = amount1Desired;
 
             liquidity = _sqrt(amount0 * amount1);
             require(liquidity > 0, "Insufficient liquidity minted");
         } else {
-            // For existing pools, we need to match the current price ratio
+            // Existing pools require matching the current price
             uint256 amount1Optimal = (amount0Desired * _reserve1) / _reserve0;
             if (amount1Optimal <= amount1Desired) {
                 amount0 = amount0Desired;
@@ -122,11 +122,11 @@ contract CharonDex is ERC20, ReentrancyGuard {
 
         IERC20(tokenIn).transferFrom(msg.sender, address(this), amountIn);
 
-        // Handle fee-on-transfer tokens by checking actual balance received
+        // Re-check balance in case tokenIn charges a transfer fee
         uint256 balanceIn = IERC20(tokenIn).balanceOf(address(this));
         uint256 actualAmountIn = balanceIn - _reserveIn;
 
-        // Constant product AMM: x * y = k, but we take a fee so less goes into the pool
+        // Constant-product AMM with fee taken from the input amount
         uint256 amountInWithFee = (actualAmountIn * (FEE_DENOMINATOR - FEE_NUMERATOR)) / FEE_DENOMINATOR;
         amountOut = (amountInWithFee * _reserveOut) / (_reserveIn + amountInWithFee);
 

@@ -11,14 +11,14 @@ contract CharonFaucet is Ownable, ReentrancyGuard {
     IERC20 public immutable chrToken;
     IERC20 public immutable fethToken;
 
-    // drip amounts (18 decimals)
+    // Default drip amounts (18 decimals)
     uint256 public chrAmount = 1_000 * 1e18;    // 1000 CHR
     uint256 public fethAmount = 5e17;           // 0.5 FETH
 
-    // cooldown between drips per wallet (in seconds)
+    // Cooldown between requests per wallet (seconds)
     uint256 public cooldown = 12 hours;
 
-    // last claim timestamps
+    // Last claim timestamp per wallet
     mapping(address => uint256) public lastChrDrip;
     mapping(address => uint256) public lastFethDrip;
 
@@ -37,7 +37,7 @@ contract CharonFaucet is Ownable, ReentrancyGuard {
         fethToken = IERC20(_feth);
     }
 
-    // ---------- Modifiers ----------
+    // Modifiers
 
     modifier notPaused() {
         require(!paused, "Faucet paused");
@@ -60,7 +60,7 @@ contract CharonFaucet is Ownable, ReentrancyGuard {
         _;
     }
 
-    // ---------- View helpers ----------
+    // View helpers
 
     function nextChrAvailable(address user) external view returns (uint256) {
         uint256 nextTime = lastChrDrip[user] + cooldown;
@@ -74,7 +74,7 @@ contract CharonFaucet is Ownable, ReentrancyGuard {
         return nextTime - block.timestamp;
     }
 
-    // ---------- Drip functions ----------
+    // Drip functions
 
     /// @notice Get CHR from faucet (1000 CHR default)
     function dripCHR()
@@ -162,7 +162,7 @@ contract CharonFaucet is Ownable, ReentrancyGuard {
         emit DripBoth(msg.sender, chrAmount, fethAmount);
     }
 
-    // ---------- Admin controls ----------
+    // Admin controls
 
     function setPaused(bool _paused) external onlyOwner {
         paused = _paused;

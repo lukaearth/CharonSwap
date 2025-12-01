@@ -9,11 +9,11 @@ contract CharonFaucet is Ownable, ReentrancyGuard {
     IERC20 public immutable chrToken;
     IERC20 public immutable fethToken;
 
-    // Default drip amounts - owner can adjust these
+    // Default drip amounts; owner can tune as needed
     uint256 public chrAmount = 1_000 * 1e18;
     uint256 public fethAmount = 5e17;
 
-    // 12 hour cooldown prevents abuse but keeps it usable for testing
+    // Cooldown between claims (12 hours by default)
     uint256 public cooldown = 12 hours;
 
     mapping(address => uint256) public lastChrDrip;
@@ -109,7 +109,7 @@ contract CharonFaucet is Ownable, ReentrancyGuard {
         emit DripFETH(msg.sender, fethAmount);
     }
 
-    // Claim both tokens at once - saves gas if you need both
+    // Claim both tokens in one call
     function dripBoth()
         external
         nonReentrant
@@ -171,7 +171,7 @@ contract CharonFaucet is Ownable, ReentrancyGuard {
         emit AmountsUpdated(_chrAmount, _fethAmount);
     }
 
-    // Emergency function to pull out tokens if something goes wrong
+    // Emergency lever to recover stray tokens
     function rescueTokens(
         address token,
         uint256 amount,

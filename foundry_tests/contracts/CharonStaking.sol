@@ -9,9 +9,9 @@ import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol
 /// @notice Stake CHR, earn CHR. Owner can pause and adjust reward rate.
 contract CharonStaking is Ownable, ReentrancyGuard {
     IERC20 public immutable stakingToken; // CHR
-    IERC20 public immutable rewardToken;  // CHR (same token in v1)
+    IERC20 public immutable rewardToken;  // CHR (mirrors staking token in v1)
 
-    // rewardRate = tokens per second (18 decimals)
+    // Tokens distributed per second (18 decimals)
     uint256 public rewardRate;
     uint256 public lastUpdateTime;
     uint256 public rewardPerTokenStored;
@@ -136,7 +136,7 @@ contract CharonStaking is Ownable, ReentrancyGuard {
         getReward();
     }
 
-    // ---------- Admin ----------
+    // Admin
 
     /// @notice Set reward rate (tokens per second, 18 decimals)
     /// @dev Call this AFTER funding the contract with reward tokens

@@ -20,7 +20,7 @@ This repository contains everything I built:
 
 ## Features
 
-### 🔄 Automated Market Maker (AMM)
+### Automated Market Maker (AMM)
 - Constant product formula (x * y = k) implementation
 - 0.3% swap fee
 - Liquidity pool management with LP tokens

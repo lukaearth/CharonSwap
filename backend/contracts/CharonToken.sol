@@ -9,11 +9,11 @@ contract Charon is ERC20, ERC20Permit {
 
     constructor() ERC20("Charon", "CHR") ERC20Permit("CHARON") {
         owner = msg.sender;
-        // Mint initial supply to deployer
+        // Start with a supply owned by the deployer
         _mint(msg.sender, 1_000_000 * 1e18);
     }
 
-    // Owner can mint more tokens if needed (for rewards, etc)
+    // Owner can mint extra tokens for rewards or testing
     function mint(address to, uint256 amount) external {
         require(msg.sender == owner, "Not owner");
         _mint(to, amount);
