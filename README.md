@@ -8,7 +8,7 @@ CharonSwap is a comprehensive DeFi ecosystem featuring an Automated Market Maker
 
 **This is a portfolio project showcasing my ability to build complete Web3 applications from scratch.**
 
-## For Hirers
+## Essentials
 
 This repository contains everything I built:
 - ✅ **Smart Contracts** - Custom Solidity contracts for AMM, staking, and token management
@@ -146,7 +146,7 @@ This project showcases:
 
 MIT License
 
-## 🙏 Acknowledgments
+## Acknowledgments
 
 - OpenZeppelin for secure contract libraries
 - Uniswap V2 for AMM design inspiration
@@ -154,6 +154,6 @@ MIT License
 
 ---
 
-**Built with ❤️ to showcase full-stack Web3 development skills**
+**Built with ❤️ to showcase my full-stack Web3 development skills**
 
 *"Crossing the river, one block at a time."*
