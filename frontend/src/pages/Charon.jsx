@@ -3,6 +3,8 @@ import { motion } from "framer-motion";
 import Starfield from "../components/Starfield";
 import Navbar from "../components/Navbar";
 import Footer from "../components/Footer";
+import charonNFT from "../assets/charonnft.jpeg"
+import charonSwap from "../assets/charonswap.jpeg"
 
 const ecosystemProjects = [
   {
@@ -10,7 +12,7 @@ const ecosystemProjects = [
     tagline: "Cross-Chain AMM",
     description: "The flagship decentralized exchange enabling seamless liquidity movement across EVM chains on Sepolia testnet.",
     status: "live",
-    image: "/ecosystem/charonswap.png",
+    image: charonSwap,
     link: "/swap",
     gradient: "from-emerald-500 to-green-600",
   },
@@ -18,8 +20,8 @@ const ecosystemProjects = [
     name: "CharonNFT",
     tagline: "NFT Marketplace",
     description: "Trade, mint, and collect NFTs with ultra-low fees and cross-chain support (in development).",
-    status: "soon",
-    image: "/ecosystem/charonnft.png",
+    status: "live",
+    image: charonNFT,
     link: "#",
     gradient: "from-purple-500 to-pink-600",
   },
@@ -127,9 +129,12 @@ export default function CharonEcosystem() {
                 <div className="p-8">
                   <div className="relative mb-8 overflow-hidden rounded-xl border border-white/10">
                     <div className="aspect-video w-full bg-gradient-to-br from-zinc-900 to-zinc-800 flex items-center justify-center">
-                      <svg className="h-16 w-16 text-zinc-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
+                    <img 
+    src={project.image}
+    alt={project.name}
+    className=" object-contain w-full h-full bg-black"
+  />
+
                     </div>
                     <div className="absolute inset-0 bg-gradient-to-t from-black/60 to-transparent" />
                   </div>

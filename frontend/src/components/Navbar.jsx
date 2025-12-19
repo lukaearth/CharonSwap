@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { useState } from "react";
 import arrow from "../assets/down-arrow1.png";
+import charonLogo from "../assets/charonlogo.png"; // ⬅️ your logo
 
 export default function Navbar() {
   const [openMore, setOpenMore] = useState(false);
@@ -10,11 +11,17 @@ export default function Navbar() {
     <header className="relative z-50 w-full border-b border-white/10 bg-black/35 backdrop-blur-xl">
       <div className="mx-auto flex max-w-6xl items-center justify-between px-6 py-4">
 
-        <div className="flex items-center gap-2 ">
+        <div className="flex items-center gap-2">
 
-          <div className="flex h-8 w-8 items-center justify-center rounded-full border border-emerald-400/60 bg-emerald-500/15 shadow-[0_0_25px_rgba(16,185,129,0.55)]">
-            <span className="text-sm font-semibold text-emerald-300">C</span>
+          {/* LOGO */}
+          <div className="flex h-[55px] w-[55px] items-center justify-center  overflow-hidden">
+            <img
+              src={charonLogo}
+              alt="Charon Logo"
+              className="h-full w-full object-contain"
+            />
           </div>
+
           <div className="flex flex-col leading-tight">
             <span className="text-lg font-semibold tracking-tight">
               <span className="text-emerald-400">Charon</span>Swap
@@ -35,7 +42,6 @@ export default function Navbar() {
             className="flex items-center gap-1 hover:text-white focus:outline-none"
           >
             More
-
             <img
               src={arrow}
               alt="arrow"
@@ -45,6 +51,7 @@ export default function Navbar() {
             />
           </button>
 
+          {/* Dropdown */}
           <div
             className={`
               absolute z-50 left-[calc(100%-80px)] top-10 w-40 overflow-hidden 
@@ -54,7 +61,6 @@ export default function Navbar() {
             `}
           >
             <div className="flex flex-col bg-black py-2 text-sm">
-
               <Link
                 to="https://github.com/luka-turunen"
                 className="px-4 py-2 hover:bg-white/10"
@@ -70,7 +76,6 @@ export default function Navbar() {
               >
                 About
               </Link>
-
             </div>
           </div>
         </nav>

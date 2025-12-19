@@ -26,3 +26,12 @@ body {
 .animate-slide-up {
   animation: slide-up 0.24s ease-out;
 }
+
+html, body, #root {
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+  background: #000; /* full black */
+  color-scheme: dark; /* helps inputs, scrollbars, etc. match */
+}

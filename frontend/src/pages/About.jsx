@@ -70,9 +70,9 @@ export default function About() {
               className="mt-20 grid md:grid-cols-2 gap-12 items-start"
             >
               <div>
-                <h2 className="text-center text-3xl font-bold text-emerald-400">My Mission</h2>
+                <h2 className="text-center text-3xl font-bold text-emerald-400">My Objective</h2>
                 <p className="text-center mt-4 text-zinc-300 leading-relaxed">
-                  My mission is to learn by building real systems on testnet — the fastest path to mastering DeFi engineering. 
+                  My objective with this project was to learn by building real systems on testnet — the fastest path to mastering DeFi engineering. 
                   I started with web development at an early age, then found an even stronger passion for blockchain engineering.
                 </p>
               </div>
@@ -144,12 +144,12 @@ export default function About() {
               </h2>
 
               <a
-                href="https://github.com/luka-turunen"
+                href="https://luka.earth"
                 target="_blank"
                 rel="noopener noreferrer"
                 className="inline-block text-5xl font-bold text-emerald-400 hover:text-emerald-300 transition-colors"
               >
-                Luka Turunen
+                luka.earth
               </a>
 
               <p className="mt-8 max-w-xl mx-auto text-zinc-400">

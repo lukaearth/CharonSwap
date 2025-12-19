@@ -145,11 +145,11 @@ export default function Landing() {
               <span className="opacity-60">
                 Developed by{" "}
                 <a
-                  href="https://github.com/luka-turunen"
+                  href="https://luka.earth"
                   target="_blank"
                   className="text-white underline decoration-100 font-bold"
                 >
-                  Luka Turunen
+                  luka.earth
                 </a>
               </span>
               <span className="opacity-60">Hardhat • Wagmi • RainbowKit</span>
