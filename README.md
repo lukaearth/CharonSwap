@@ -138,8 +138,8 @@ This project showcases:
 
 ## Author
 
-**Luka Turunen**
-- GitHub: [@luka-turunen](https://github.com/luka-turunen)
+**luka.earth**
+- GitHub: [@lukaearth](https://github.com/lukaearth)
 - Built as a portfolio project to demonstrate full-stack Web3 development capabilities
 
 ## License
